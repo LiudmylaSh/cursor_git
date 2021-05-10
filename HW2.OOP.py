@@ -121,26 +121,24 @@ class Arm:
 person1 = Person('Helen')
 
 for ar in person1.arms:
-    print(person1.name + ' ' + ar.arm + "Hand!")
+    print(person1.name + ' ' + "has" ' ' + ar.arm + ' ' + "hand!")
 
 
 # aggregation
 class CellPhone:
-    def __init__(self, battery):
-        self.battery = battery
-
-
-class Screen:
     def __init__(self, screen):
         self.screen = screen
 
 
-cell_phone = CellPhone('3400 mAh')
-phone = Screen('5.5')
+class Screen:
+    def __init__(self, screen_size):
+        self.screen_size = screen_size
 
-print(cell_phone.battery)
-print(phone.screen)
 
+our_screen = Screen('5.5"')
+our_phone = CellPhone(our_screen)
+#print(our_screen.screen_size)
+print(our_phone.screen.screen_size)
 
 # 3.
 # class Profile:
@@ -175,27 +173,27 @@ from abc import abstractmethod, ABC
 class Laptop(ABC):
     @abstractmethod
     def screen(self):
-        raise NotImplementedError('The method is missing')
+        raise NotImplementedError
 
     @abstractmethod
     def keyboard(self):
-        raise NotImplementedError('The method is missing')
+        raise NotImplementedError
 
     @abstractmethod
     def touchpad(self):
-        raise NotImplementedError('The method is missing')
+        raise NotImplementedError
 
     @abstractmethod
     def webcam(self):
-        raise NotImplementedError('The method is missing')
+        raise NotImplementedError
 
     @abstractmethod
     def ports(self):
-        raise NotImplementedError('The method is missing')
+        raise NotImplementedError
 
     @abstractmethod
     def dynamics(self):
-        raise NotImplementedError('The method is missing')
+        raise NotImplementedError
 
 
 class Apple(Laptop):
@@ -227,8 +225,7 @@ class Apple(Laptop):
             print(f'The dynamics of {self.model} laptop is {self.dynamics}')
 
 
-laptop = Apple('Apple MacBook Air M1 2020', 'Retina 13.3', 'Magic keyboard', 'Track Force Touch',
-               'HD-camera Face Time 720p', '2*Thunderbolt 3, USB Type-C 3.1', 'SRS Premium Sound')
+laptop = Apple('Apple MacBook Air M1 2020', 'Retina 13.3', 'Magic keyboard', 'Track Force Touch','HD-camera Face Time 720p', 'USB Type-C 3.1', 'SRS Premium Sound')
 laptop.screen()
 laptop.keyboard()
 laptop.touchpad()

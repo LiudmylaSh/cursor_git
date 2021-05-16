@@ -122,17 +122,17 @@ class OurRealtor(metaclass=RealtorMeta):
         print(
             f"Be careful next time. The realtor steals your money! Now your balance is {person.availability_of_money}")
 
+if __name__ == "__main__":
+    house1 = House(45, 54000)
+    house2 = House(83, 88000)
+    house3 = House(58, 63000)
 
-house1 = House(45, 54000)
-house2 = House(83, 88000)
-house3 = House(58, 63000)
+    person1 = Person('Liudmula', 35, 40000, 20000, [])
+    person1.provide_info_person()
+    person1.make_money()
 
-person1 = Person('Liudmula', 35, 40000, 20000, [])
-person1.provide_info_person()
-person1.make_money()
-
-realtor1 = OurRealtor('Olga', 45, [house1, house2, house3])
-realtor1.provide_info()
-realtor1.give_discount(house3)
-person1.buy_house(house3)
-realtor1.steal(person1)
+    realtor1 = OurRealtor('Olga', 45, [house1, house2, house3])
+    realtor1.provide_info()
+    realtor1.give_discount(house3)
+    person1.buy_house(house3)
+    realtor1.steal(person1)

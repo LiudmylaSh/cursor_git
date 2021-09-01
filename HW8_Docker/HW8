@@ -1,0 +1,252 @@
+1. Use the simple Flask application and build Dockerfile for it.
+Create your own image (docker build) and try to run the container and interact with it by using your browser.
+Don't forget to pass the valid ports by using -p. (e.g .: -p 8080: 8080)
+Try to use such commands:
+- docker run (with -d, -it, or without) {id}/{name},
+- docker stop {id}/{name},
+- docker attach {id}/{name},
+- docker inspect {id}/{name},
+- docker logs {id}/{name}
+Change the flask application to print your name and rebuild the image. Run the container again to verify the result.
+
+docker build -t hw8 .
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED              SIZE
+hw8          latest    2eeead6c7da2   About a minute ago   423MB
+ubuntu       20.04     7e0aa2d69a15   6 weeks ago          72.7MB
+
+docker run -d -p 8080:8080 hw8
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker run -d -p 8080:8080 hw8
+33f1c559a79794e7b5ebb6ccaeb51c0c0a3ef482783dbc40246e4876696433cd
+
+docker run -it -p 8080:8080 hw8
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker run -it -p 8080:8080 hw8
+ * Serving Flask app '/opt/app.py' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://172.17.0.2:8080/ (Press CTRL+C to quit)
+172.17.0.1 - - [05/Jun/2021 20:18:57] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:19:06] "GET /hello HTTP/1.1" 200 -
+
+iudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                        PORTS     NAMES
+41e4e1e084b4   hw8       "/bin/sh -c 'FLASK_A…"   35 seconds ago   Up 33 seconds                           priceless_keldysh
+ae3712137b1d   hw8       "/bin/sh -c 'FLASK_A…"   8 minutes ago    Exited (130) 3 minutes ago              focused_sinoussi
+33f1c559a797   hw8       "/bin/sh -c 'FLASK_A…"   13 minutes ago   Exited (137) 8 minutes ago              wizardly_pike
+c024cb621ba1   hw8       "/bin/sh -c 'FLASK_A…"   33 minutes ago   Exited (137) 30 minutes ago             inspiring_bartik
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker stop 4
+4
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker attach c
+172.17.0.1 - - [05/Jun/2021 20:42:06] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:42:09] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:42:18] "GET /hello HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:42:24] "GET /hello HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:42:35] "GET /hello HTTP/1.1" 200 -
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker inspect hw8
+[
+    {
+        "Id": "sha256:2eeead6c7da2e69d6df1b653b3c342ccd295744965826593b7e4c2436f6b976c",
+        "RepoTags": [
+            "hw8:latest"
+        ],
+        "RepoDigests": [],
+        "Parent": "sha256:20ccfa91fb8696c6229dc88fcbd0587c7fc2d2d03eb27e385fefbe05eeb358a2",
+        "Comment": "",
+        "Created": "2021-06-05T19:50:05.663984473Z",
+        "Container": "6c189a079fb608f229f97180f1eea7bda368b5913a37302a8afe129a63b28056",
+        "ContainerConfig": {
+            "Hostname": "6c189a079fb6",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "#(nop) ",
+                "ENTRYPOINT [\"/bin/sh\" \"-c\" \"FLASK_APP=/opt/app.py flask run --host=0.0.0.0 --port=8080\"]"
+            ],
+            "Image": "sha256:20ccfa91fb8696c6229dc88fcbd0587c7fc2d2d03eb27e385fefbe05eeb358a2",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": [
+                "/bin/sh",
+                "-c",
+                "FLASK_APP=/opt/app.py flask run --host=0.0.0.0 --port=8080"
+            ],
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "DockerVersion": "20.10.7",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": null,
+            "Image": "sha256:20ccfa91fb8696c6229dc88fcbd0587c7fc2d2d03eb27e385fefbe05eeb358a2",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": [
+                "/bin/sh",
+                "-c",
+                "FLASK_APP=/opt/app.py flask run --host=0.0.0.0 --port=8080"
+            ],
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 422651722,
+        "VirtualSize": 422651722,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/acfe9b91b49cd9aa68cbd40cebc216307d7742e6e1483469807f677f3b390fca/diff:/var/lib/docker/overlay2/c329e81da022e0c2ab4a05b53b6a92c8b800d5c984f0bdec94fe5774a17088d2/diff:/var/lib/docker/overlay2/abff26664923b35634f3b142959e7db2238850880d9ff2fdee86110ea13108a9/diff:/var/lib/docker/overlay2/164922c9306a713a10df65fd99681d5aaf04e38f7fa1c8e01d3f807a8b678326/diff:/var/lib/docker/overlay2/694c41c33ba8eba0e541c02c08bf82edff927414be48b5f1a2e01c172f984e91/diff",
+                "MergedDir": "/var/lib/docker/overlay2/c78811460db6bf7ac5c6b2d9a3ba4b498b12b31802d06e466553464726203147/merged",
+                "UpperDir": "/var/lib/docker/overlay2/c78811460db6bf7ac5c6b2d9a3ba4b498b12b31802d06e466553464726203147/diff",
+                "WorkDir": "/var/lib/docker/overlay2/c78811460db6bf7ac5c6b2d9a3ba4b498b12b31802d06e466553464726203147/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:ccdbb80308cc5ef43b605ac28fac29c6a597f89f5a169bbedbb8dec29c987439",
+                "sha256:63c99163f47292f80f9d24c5b475751dbad6dc795596e935c5c7f1c73dc08107",
+                "sha256:2f140462f3bcf8cf3752461e27dfd4b3531f266fa10cda716166bd3a78a19103",
+                "sha256:a775d14de8a59ad9952b8097b0d77b035097a96a42eb03a501f37323d7ea4a9a",
+                "sha256:af5ec1c70fe91856194c51b47d61d3f276a034d10c0a41e6ee4a405eb57adc4b",
+                "sha256:0b52e98fd62dab21a9d15c997181ac95a03e223e0540c76b97586bf8648a95d2"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2021-06-05T22:50:05.715861776+03:00"
+        }
+    }
+]
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker logs c
+ * Serving Flask app '/opt/app.py' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://172.17.0.2:8080/ (Press CTRL+C to quit)
+172.17.0.1 - - [05/Jun/2021 19:53:45] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 19:53:45] "GET /favicon.ico HTTP/1.1" 404 -
+172.17.0.1 - - [05/Jun/2021 19:54:00] "GET /hello HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 19:54:17] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 19:54:17] "GET /favicon.ico HTTP/1.1" 404 -
+ * Serving Flask app '/opt/app.py' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://172.17.0.2:8080/ (Press CTRL+C to quit)
+172.17.0.1 - - [05/Jun/2021 20:40:21] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:42:06] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:42:09] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:42:18] "GET /hello HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:42:24] "GET /hello HTTP/1.1" 200 -
+172.17.0.1 - - [05/Jun/2021 20:42:35] "GET /hello HTTP/1.1" 200 -
+
+added the following function to app.py:
+
+@app.route('/name')
+def name():
+    return 'Liudmyla, you did it!'
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker build -t hw8_updated .
+Sending build context to Docker daemon  14.34kB
+Step 1/5 : FROM ubuntu:20.04
+ ---> 7e0aa2d69a15
+Step 2/5 : RUN apt-get update && apt-get install -y python python3-pip
+ ---> Using cache
+ ---> c07538247504
+Step 3/5 : RUN pip install flask
+ ---> Using cache
+ ---> 986c25a4f776
+Step 4/5 : COPY app.py /opt/
+ ---> 91330b7e19f6
+Step 5/5 : ENTRYPOINT FLASK_APP=/opt/app.py flask run --host=0.0.0.0 --port=8080
+ ---> Running in 6c09cdda19c7
+Removing intermediate container 6c09cdda19c7
+ ---> 1f4a874b3bc8
+Successfully built 1f4a874b3bc8
+Successfully tagged hw8_updated:latest
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker images
+REPOSITORY    TAG       IMAGE ID       CREATED             SIZE
+hw8_updated   latest    1f4a874b3bc8   23 seconds ago      423MB
+hw8           latest    2eeead6c7da2   About an hour ago   423MB
+ubuntu        20.04     7e0aa2d69a15   6 weeks ago         72.7MB
+ubuntu        latest    7e0aa2d69a15   6 weeks ago         72.7MB
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED             STATUS                        PORTS                                       NAMES
+a5badef34f03   hw8       "/bin/sh -c 'FLASK_A…"   44 minutes ago      Exited (130) 44 minutes ago                                               gallant_kare
+41e4e1e084b4   hw8       "/bin/sh -c 'FLASK_A…"   50 minutes ago      Exited (137) 49 minutes ago                                               priceless_keldysh
+ae3712137b1d   hw8       "/bin/sh -c 'FLASK_A…"   58 minutes ago      Exited (130) 53 minutes ago                                               focused_sinoussi
+33f1c559a797   hw8       "/bin/sh -c 'FLASK_A…"   About an hour ago   Exited (137) 58 minutes ago                                               wizardly_pike
+c024cb621ba1   hw8       "/bin/sh -c 'FLASK_A…"   About an hour ago   Up 5 minutes                  0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   inspiring_bartik
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker stop c
+c
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker run -d -p 8080:8080 hw8_updated
+713d7f0534bcb1b06cc4bc2199d5fc16e63b4a36ea58f649d68d34f6075fb5dc
+
+2*.
+• docker run -it --name my_story ubuntu
+• In the container, run echo "Your story" > story.txt
+• Install cowsay with apt-get install cowsay and execute cat story.txt|cowsay.
+• In another terminal window, run docker run -it --name my_story_2 ubuntu
+• Using ls, check that there is no joke.txt file, because you are in another different container. Also,
+there is no cowsay command.
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker run -it --name my_story ubuntu
+root@d7858b7adad2:/# echo "Your story" > story.txt
+root@d7858b7adad2:/# apt-get update
+root@d7858b7adad2:/# apt-get install cowsay
+root@d7858b7adad2:/# cp /usr/games/cowsay /usr/bin/
+root@d7858b7adad2:/# cat story.txt|cowsay
+ ____________
+< Your story >
+ ------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+root@d7858b7adad2:/#
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW8$ docker run -it --name my_story_2 ubuntu
+root@1ab001fe404e:/# ls
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@1ab001fe404e:/# cowsay
+bash: cowsay: command not found
+root@1ab001fe404e:/#

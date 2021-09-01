@@ -1,0 +1,58 @@
+1. Save the ubuntu images to a tar/zip archive and then extract the layers and metadata files from them.(Tip: use `docker save -o` command)
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW9$ docker pull ubuntu
+Using default tag: latest
+latest: Pulling from library/ubuntu
+345e3491a907: Pull complete
+57671312ef6f: Pull complete
+5e9250ddb7d0: Pull complete
+Digest: sha256:adf73ca014822ad8237623d388cedf4d5346aa72c270c5acc01431cc93e18e2d
+Status: Downloaded newer image for ubuntu:latest
+docker.io/library/ubuntu:latest
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW9$ docker images
+REPOSITORY           TAG       IMAGE ID       CREATED             SIZE
+l9_flask_app         latest    3b147ee7f10c   About an hour ago   61.1MB
+flask_app1_with_db   latest    10b865bb0329   About an hour ago   61.1MB
+python               alpine    2d64a2341b7c   3 weeks ago         45MB
+mysql                5.7       2c9028880e58   4 weeks ago         447MB
+ubuntu               latest    7e0aa2d69a15   7 weeks ago         72.7MB
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW9$ docker save -o  ubuntu.tar ubuntu
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW9$ ls
+'Task 9'   ubuntu.tar
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW9$ docker save -o  ubuntu.zip ubuntu
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW9$ ls
+'Task 9'   ubuntu.tar   ubuntu.zip
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW9$ tar -xvf ubuntu.tar
+2ae7aa944634fefcfd5b886827d742268228e070238fb405b4d846b266060dbb/
+2ae7aa944634fefcfd5b886827d742268228e070238fb405b4d846b266060dbb/VERSION
+2ae7aa944634fefcfd5b886827d742268228e070238fb405b4d846b266060dbb/json
+2ae7aa944634fefcfd5b886827d742268228e070238fb405b4d846b266060dbb/layer.tar
+6e04f1f804d0d621b5a098dc2ecb5bcc7515cdf7f13d530a12fab11a194cfc72/
+6e04f1f804d0d621b5a098dc2ecb5bcc7515cdf7f13d530a12fab11a194cfc72/VERSION
+6e04f1f804d0d621b5a098dc2ecb5bcc7515cdf7f13d530a12fab11a194cfc72/json
+6e04f1f804d0d621b5a098dc2ecb5bcc7515cdf7f13d530a12fab11a194cfc72/layer.tar
+7e0aa2d69a153215c790488ed1fcec162015e973e49962d438e18249d16fa9bd.json
+f3f2ad580f7e6eb71163e45a6cbef2d6b82377e274e5193ff5708f506e9322bc/
+f3f2ad580f7e6eb71163e45a6cbef2d6b82377e274e5193ff5708f506e9322bc/VERSION
+f3f2ad580f7e6eb71163e45a6cbef2d6b82377e274e5193ff5708f506e9322bc/json
+f3f2ad580f7e6eb71163e45a6cbef2d6b82377e274e5193ff5708f506e9322bc/layer.tar
+manifest.json
+repositories
+
+2*. Run a container that outputs the current date and time in Rome. Should be only Dockerfile.(Tip: user 'tzdata' library)
+
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW9$ docker build . -t rome_time
+Sending build context to Docker daemon  225.3MB
+Step 1/2 : FROM ubuntu
+ ---> 7e0aa2d69a15
+Step 2/2 : CMD TZ=Italy/Rome date
+ ---> Running in 2ee61b687bd2
+Removing intermediate container 2ee61b687bd2
+ ---> 6c03bfe35c0d
+Successfully built 6c03bfe35c0d
+Successfully tagged rome_time:latest
+liudmyla@liudmyla-MS-7636:~/cursor_git/HW9$ docker run 6c03bfe35c0d
+Tue Jun 15 14:36:24 Italy 2021

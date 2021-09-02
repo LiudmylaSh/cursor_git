@@ -1,0 +1,9 @@
+version: "2"
+
+services:
+  web:
+    build: ./docker/python
+    ports:
+      -  5001:5001
+    volumes:
+      - .:/usr/scr/app
